@@ -3,6 +3,7 @@ package net.riduan.ems.service.impl;
 import lombok.AllArgsConstructor;
 import net.riduan.ems.dto.EmployeeDto;
 import net.riduan.ems.entity.Employee;
+import net.riduan.ems.exception.ResourceNotFoundException;
 import net.riduan.ems.mapper.EmployeeMapper;
 import net.riduan.ems.repository.EmployeeRepository;
 import net.riduan.ems.service.EmployeeService;
@@ -20,5 +21,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto);
         Employee savedEmployee =  employeeRepository.save(employee);
         return EmployeeMapper.mapToEmployeeDto(savedEmployee);
+    }
+
+    @Override
+    public EmployeeDto getEmployeeById(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException("Employee is not exists with given id : " + employeeId));
+        return EmployeeMapper.mapToEmployeeDto(employee);
     }
 }
