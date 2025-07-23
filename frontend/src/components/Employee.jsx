@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { createEmployee, getEmployee } from '../services/EmployeeService'
+import { createEmployee, getEmployee, updateEmployee } from '../services/EmployeeService'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const EmployeeComponent = () => {
@@ -29,21 +29,33 @@ const EmployeeComponent = () => {
     }
     }, [id]);
 
-    function saveEmployee(e){
+    function saveOrUpdateEmployee(e){
         e.preventDefault();
 
-        if(validateForm()){ // Call validateForm and proceed only if it returns true
-            const employee = {firstName, lastName, email}
-            console.log(employee)
+        if (validateForm()) {
+        const employee = { firstName, lastName, email };
+        console.log(employee);
 
-            createEmployee(employee).then((response) => {
-                console.log(response.data);
-                navigator('/employees')
-            })
+        if (id) {
+            updateEmployee(id, employee).then((response) => {
+            console.log(response.data);
+            navigator('/employees');
+            }).catch(error => {
+            console.error(error);
+            });
+        }else {
+        createEmployee(employee).then((response) => {
+            console.log(response.data);
+            navigator('/employees');
+        }).catch(error => {
+            console.error(error);
+        });
+        }
         }
     }
 
     function validateForm(){
+
 
         let valid = true;
 
@@ -121,7 +133,7 @@ const EmployeeComponent = () => {
                                 { errors.email && <div className='invalid-feedback'> { errors.email }</div> }
                             </div>
 
-                            <button className='btn btn-success' onClick={saveEmployee} type='submit'>Save</button>
+                            <button className='btn btn-success' onClick={saveOrUpdateEmployee} type='submit'>Save</button>
                         </form>
                     </div>
                 </div>

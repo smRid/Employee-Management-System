@@ -1,4 +1,4 @@
-import './App.css';
+
 import Employee from './components/Employee';
 import FooterComponent from './components/FooterComponent'
 import HeaderComponent from './components/HeaderComponent'
