@@ -1,11 +1,12 @@
 import React from 'react'
 import './App.css'
+import ListEmployeeComponent from './components/ListEmployeeComponent'
 
 function App() {
 
   return (
     <>
-      <h1 className='text-center'>Employee Management System</h1>
+      <ListEmployeeComponent />
     </>
   )
 }
